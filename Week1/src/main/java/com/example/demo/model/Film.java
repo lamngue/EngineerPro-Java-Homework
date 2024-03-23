@@ -2,6 +2,8 @@ package com.example.demo.model;
 
 import lombok.*;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Entity
+@Table(name = "film")
 public class Film {
     @Builder.Default
     private Long id = 0L;
     private String name;
     private List<Double> ratings;
-    @Builder.Default
-    private List<User> likedBy = new ArrayList<>();
 }

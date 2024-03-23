@@ -25,10 +25,15 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/{userId}")
+    public User getUserById(@PathVariable Long userId) {
+        return userService.getUserById(userId);
+    }
+
     @PostMapping("/add_user")
     public ResponseEntity<String> addUser(@RequestBody User user) {
         List<User> users = userService.getAllUsers();
-        if (userService.isUserExists(user)) {
+        if (userService.isUserExists(user.getName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
         } else {
             userService.addUser(user);
@@ -36,23 +41,22 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/{userId}/like")
-    public void likeFilm(@PathVariable Long userId, @RequestBody Film film) {
+    public void likeFilm(@PathVariable Long userId, @RequestBody Long filmId) {
         User user = userService.getUserById(userId);
-        userService.likeFilm(user, film);
+        userService.likeFilm(userId, filmId);
     }
 
     @GetMapping("/{userId}/favorites")
     public List<Film> getFavoriteFilms(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
-        return userService.getFavoriteFilms(user);
+        return userService.getFavoriteFilms(userId);
     }
 
     @DeleteMapping("/{userId}/favorites")
-    public void removeLikedFilm(@PathVariable Long userId, @RequestBody Film film) {
+    public void removeLikedFilm(@PathVariable Long userId, @RequestBody Long filmId) {
         User user = userService.getUserById(userId);
-        userService.removeLikedFilm(user, film);
+        userService.removeLikedFilm(userId, filmId);
     }
 }
 
